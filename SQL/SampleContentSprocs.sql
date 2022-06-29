@@ -1,0 +1,230 @@
+USE ContentSample
+GO
+
+IF EXISTS(
+SELECT *
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_NAME = 'usp_GetAll')
+BEGIN
+DROP PROCEDURE usp_GetAll
+END
+GO
+
+CREATE PROCEDURE usp_GetAll
+AS
+BEGIN
+SELECT
+ID,
+ContentType,
+ScreenSpace,
+[Name],
+Shape
+FROM
+Content
+END
+GO
+
+IF EXISTS(
+SELECT *
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_NAME = 'usp_GetByID')
+BEGIN
+DROP PROCEDURE usp_GetByID
+END
+GO
+
+CREATE PROCEDURE usp_GetByID(
+@ID INT)
+AS
+BEGIN
+SELECT
+ID,
+ContentType,
+ScreenSpace,
+[Name],
+Shape
+FROM
+Content
+WHERE
+ID = @ID
+END
+GO
+
+IF EXISTS(
+SELECT *
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_NAME = 'usp_GetByContentType')
+BEGIN
+DROP PROCEDURE usp_GetByContentType
+END
+GO
+
+CREATE PROCEDURE usp_GetByContentType(
+@ContentType NVARCHAR(128))
+AS
+BEGIN
+SELECT
+ID,
+ContentType,
+ScreenSpace,
+[Name],
+Shape
+FROM
+Content
+WHERE
+ContentType LIKE '%' + @ContentType + '%'
+END
+GO
+
+IF EXISTS(
+SELECT *
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_NAME = 'usp_GetByScreenSpace')
+BEGIN
+DROP PROCEDURE usp_GetByScreenSpace
+END
+GO
+
+CREATE PROCEDURE usp_GetByScreenSpace(
+@ScreenSpace NVARCHAR(128))
+AS
+BEGIN
+SELECT
+ID,
+ContentType,
+ScreenSpace,
+[Name],
+Shape
+FROM
+Content
+WHERE
+ScreenSpace LIKE '%' + @ScreenSpace + '%'
+END
+GO
+
+IF EXISTS(
+SELECT *
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_NAME = 'usp_GetByName')
+BEGIN
+DROP PROCEDURE usp_GetByName
+END
+GO
+
+CREATE PROCEDURE usp_GetByName(
+@Name NVARCHAR(128))
+AS
+BEGIN
+SELECT
+ID,
+ContentType,
+ScreenSpace,
+[Name],
+Shape
+FROM
+Content
+WHERE
+[Name] LIKE '%' + @Name + '%'
+END
+GO
+
+IF EXISTS(
+SELECT *
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_NAME = 'usp_GetByShape')
+BEGIN
+DROP PROCEDURE usp_GetByShape
+END
+GO
+
+CREATE PROCEDURE usp_GetByShape(
+@Shape NVARCHAR(128))
+AS
+BEGIN
+SELECT
+ID,
+ContentType,
+ScreenSpace,
+[Name],
+Shape
+FROM
+Content
+WHERE
+Shape LIKE '%' + @Shape + '%'
+END
+GO
+
+IF EXISTS(
+SELECT *
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_NAME = 'usp_CreateContent')
+BEGIN
+DROP PROCEDURE usp_CreateContent
+END
+GO
+
+CREATE PROCEDURE usp_CreateContent(
+@ContentType NVARCHAR(128),
+@ScreenSpace NVARCHAR(128),
+@Name NVARCHAR(128),
+@Shape NVARCHAR(128))
+AS
+BEGIN
+INSERT INTO Content (ContentType, ScreenSpace, [Name], Shape)
+VALUES
+(@ContentType,
+@ScreenSpace,
+@Name,
+@Shape)
+END
+GO
+
+IF EXISTS(
+SELECT *
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_NAME = 'usp_UpdateContent')
+BEGIN
+DROP PROCEDURE usp_UpdateContent
+END
+GO
+
+CREATE PROCEDURE usp_UpdateContent(
+@ID INT,
+@ContentType NVARCHAR(128),
+@ScreenSpace NVARCHAR(128),
+@Name NVARCHAR(128),
+@Shape NVARCHAR(128))
+AS
+BEGIN
+UPDATE Content
+SET
+ContentType = @ContentType,
+ScreenSpace = @ScreenSpace,
+[Name] = @Name,
+Shape = @Shape
+WHERE
+ID = @ID
+END
+GO
+
+IF EXISTS(
+SELECT *
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_NAME = 'usp_DeleteContent')
+BEGIN
+DROP PROCEDURE usp_DeleteContent
+END
+GO
+
+CREATE PROCEDURE usp_DeleteContent(
+@ID INT)
+AS
+BEGIN
+DELETE FROM Content
+WHERE
+ID = @ID
+END
+GO
+
+USE master
+GO
